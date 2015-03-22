@@ -1,7 +1,52 @@
-#include <stdio.h>
+//types.h - файл, в котором содержатся структуры WinApi: RGBQUAD, BITMAPFILEHEADER, BITMAPINFOHEADER, BITMAPINFO
+//это сделано для того, чтобы приложение можно было сделать кроссплатформенным
+//далее будет реализовано преобразование структуры сцены в матрицу пикселей
 
-int main()
+#ifndef _TYPES_H
+#define _TYPES_H
+
+typedef unsigned short      WORD;
+typedef unsigned char       BYTE;
+typedef unsigned long       DWORD;
+typedef long				LONG;
+
+typedef struct
 {
-printf("Hello World!");
-return 0;
-}
+	BYTE    rgbBlue;		//баланс синего
+	BYTE    rgbGreen;		//баланс зеленого
+	BYTE    rgbRed;		//баланс красного
+	BYTE    rgbReserved;		//баланс прозрачности
+} RGBQUAD;
+
+typedef struct
+{
+	WORD    bfType;		//сигнатура формата
+	DWORD   bfSize;		//размер файла в байтах
+	WORD    bfReserved1;		//зарезервированное поле, содержит 0
+	WORD    bfReserved2;		// -||-
+	DWORD   bfOffBits;		//положение пиксельных данных относительно начала данной структуры (в байтах) 
+} BITMAPFILEHEADER;
+
+typedef struct
+{
+	DWORD      biSize;		//размер данной структуры в байтах
+	LONG       biWidth;		//ширина растра в пикселях. Указывается целым числом со знаком
+	LONG       biHeight;		//Целое число со знаком, содержащее два параметра: высота растра в пикселях 
+								//(абсолютное значение числа) и порядок следования строк в двумерных массивах (знак числа). 
+	WORD       biPlanes;		//в BMP допустимо только значение 1
+	WORD       biBitCount;		//количество бит на пиксель
+	DWORD      biCompression;		//указывает способ хранения пикселей
+	DWORD      biSizeImage;		//размер пиксельных данных в байтах
+	LONG       biXPelsPerMeter;		//количество пикселей на метр по горизонтали
+	LONG       biYPelsPerMeter;		//и вертикали
+	DWORD      biClrUsed;		//размер таблицы цветов в ячейках
+	DWORD      biClrImportant;		//количество ячеек от начала таблицы цветов до последней используемой, включая ее саму
+} BITMAPINFOHEADER;
+
+typedef struct
+{
+	BITMAPINFOHEADER bmiHeader;		
+	RGBQUAD          bmiColors[1];
+} BITMAPINFO;
+
+#endif
