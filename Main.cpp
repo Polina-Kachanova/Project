@@ -13,7 +13,7 @@ const int width = 800;
 const int height = 800;
 
 Vec3f light_dir(1, 1, 1);
-Vec3f       eye(1, 1, 3);
+Vec3f       eye(0, 0, 3);
 Vec3f    center(0, 0, 0);
 Vec3f        up(0, 1, 0);
 
@@ -50,8 +50,7 @@ struct Shader : public IShader {
 		Vec3f n = (B*model->normal(uv)).normalize();
 
 		float diff = fmax(0.f, n*light_dir);
-		//        color = model->diffuse(uv)*diff;
-		color = TGAColor(255, 255, 255)*diff;
+		color = model->diffuse(uv)*diff;
 		return false;
 	}
 };
